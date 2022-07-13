@@ -13,14 +13,18 @@ class Dashboard
 {
     public function execute()
     {
-        $postRepository = new PostRepository();
-        $postRepository->connection = new DatabaseConnection();
-        $posts = $postRepository->getPosts();
+        if(isset($_SESSION['logged'])){
+            $postRepository = new PostRepository();
+            $postRepository->connection = new DatabaseConnection();
+            $posts = $postRepository->getPosts();
 
-        $commentRepository = new CommentRepository();
-        $commentRepository->connection = new DatabaseConnection();
-        $comments = $commentRepository->getAllComments();
+            $commentRepository = new CommentRepository();
+            $commentRepository->connection = new DatabaseConnection();
+            $comments = $commentRepository->getAllComments();
 
-        include 'templates/dashboard.php';
+            include 'templates/dashboard.php';
+        } else {
+            header('Location: index.php?action=login');
+        }
     }
 }

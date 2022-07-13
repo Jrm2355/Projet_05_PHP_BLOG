@@ -46,23 +46,27 @@ class AddPost
 {
     public function execute(array $input)
     {
-        // It handles the form submission when there is an input.
-        if ($input !== null) {
-            $title = null;
-            $chapo = null;
-            $content = null;
-            if (!empty($input['title']) && !empty($input['chapo']) && !empty($input['content'])) {
-                $title = $input['title'];
-                $chapo = $input['chapo'];
-                $content = $input['content'];
+        if(isset($_SESSION['logged'])){
+            // It handles the form submission when there is an input.
+            if ($input !== null) {
+                $title = null;
+                $chapo = null;
+                $content = null;
+                if (!empty($input['title']) && !empty($input['chapo']) && !empty($input['content'])) {
+                    $title = $input['title'];
+                    $chapo = $input['chapo'];
+                    $content = $input['content'];
 
-                $postRepository = new PostRepository();
-                $postRepository->connection = new DatabaseConnection();
-                $success = $postRepository->createPost($title, $chapo, $content);
-                header('Location: index.php?action=dashboard');
+                    $postRepository = new PostRepository();
+                    $postRepository->connection = new DatabaseConnection();
+                    $success = $postRepository->createPost($title, $chapo, $content);
+                    header('Location: index.php?action=dashboard');
+                }
             }
+                include 'templates/add_post.php';
+        } else {
+            header('Location: index.php?action=login');
         }
-            include 'templates/add_post.php';
     }
 }
 
@@ -71,13 +75,17 @@ class DeletePost
 {
     public function execute(string $identifier)
     {
-        $postRepository = new PostRepository();
-        $postRepository->connection = new DatabaseConnection();
-        $success = $postRepository->deletePost($identifier);
-        if (!$success) {
-            throw new \Exception('Impossible de supprimer l\'article !');
+        if(isset($_SESSION['logged'])){
+            $postRepository = new PostRepository();
+            $postRepository->connection = new DatabaseConnection();
+            $success = $postRepository->deletePost($identifier);
+            if (!$success) {
+                throw new \Exception('Impossible de supprimer l\'article !');
+            } else {
+                header('Location: index.php?action=dashboard');
+            }
         } else {
-            header('Location: index.php?action=dashboard');
+            header('Location: index.php?action=login');
         }
     }
 }
@@ -86,32 +94,36 @@ class UpdatePost
 {
     public function execute(string $identifier, ?array $input)
     {
-        // It handles the form submission when there is an input.
-        if ($input !== null) {
-            $title = null;
-            $chapo = null;
-            $content = null;
-            if (!empty($input['title'])&& !empty($input['chapo']) && !empty($input['content'])) {
-                $title = $input['title'];
-                $chapo = $input['chapo'];
-                $content = $input['content'];
-            } else {
-                throw new \Exception('Les données du formulaire sont invalides.');
+        if(isset($_SESSION['logged'])){
+            // It handles the form submission when there is an input.
+            if ($input !== null) {
+                $title = null;
+                $chapo = null;
+                $content = null;
+                if (!empty($input['title'])&& !empty($input['chapo']) && !empty($input['content'])) {
+                    $title = $input['title'];
+                    $chapo = $input['chapo'];
+                    $content = $input['content'];
+                } else {
+                    throw new \Exception('Les données du formulaire sont invalides.');
+                }
+
+                $postRepository = new PostRepository();
+                $postRepository->connection = new DatabaseConnection();
+                $postRepository->updatePost($identifier, $title, $chapo, $content);
+                header('Location: index.php?action=post&id=' . $identifier);
+                
             }
 
+            // Otherwise, it displays the form.
             $postRepository = new PostRepository();
             $postRepository->connection = new DatabaseConnection();
-            $postRepository->updatePost($identifier, $title, $chapo, $content);
-            header('Location: index.php?action=post&id=' . $identifier);
-            
-        }
-
-        // Otherwise, it displays the form.
-        $postRepository = new PostRepository();
-        $postRepository->connection = new DatabaseConnection();
-        $post = $postRepository->getPost($identifier);
-        if ($post === null) {
-            throw new \Exception("Le contentaire $identifier n'existe pas.");
+            $post = $postRepository->getPost($identifier);
+            if ($post === null) {
+                throw new \Exception("Le contentaire $identifier n'existe pas.");
+            }
+        } else {
+            header('Location: index.php?action=login');
         }
 
         include 'templates/update_post.php';

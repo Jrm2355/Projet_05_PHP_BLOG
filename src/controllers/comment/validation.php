@@ -12,11 +12,14 @@ class ValidationComment
 {
     public function execute(string $identifier)
     {
-        $commentRepository = new CommentRepository();
-        $commentRepository->connection = new DatabaseConnection();
-        $commentRepository->validationComment($identifier);
+        if(isset($_SESSION['logged'])){
+            $commentRepository = new CommentRepository();
+            $commentRepository->connection = new DatabaseConnection();
+            $commentRepository->validationComment($identifier);
 
-        header('Location: index.php?action=dashboard');
-
+            header('Location: index.php?action=dashboard');
+        } else {
+            header('Location: index.php?action=login');
+        }
     }
 }
