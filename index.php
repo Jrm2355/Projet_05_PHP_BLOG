@@ -6,6 +6,9 @@ require_once('src/controllers/comment/validation.php');
 require_once('src/controllers/homepage.php');
 require_once('src/controllers/post.php');
 require_once('src/controllers/dashboard.php');
+require_once('src/controllers/inscription.php');
+require_once('src/controllers/login.php');
+require_once('src/controllers/logout.php');
 
 
 use Application\Controllers\Comment\Add\AddComment;
@@ -17,7 +20,9 @@ use Application\Controllers\Post\AddPost;
 use Application\Controllers\Post\UpdatePost;
 use Application\Controllers\Post\DeletePost;
 use Application\Controllers\Dashboard\Dashboard;
-
+use Application\Controllers\Inscription\Inscription;
+use Application\Controllers\Login\Login;
+use Application\Controllers\Logout\Logout;
 
 try {
     if (isset($_GET['action']) && $_GET['action'] !== '') {
@@ -66,6 +71,21 @@ try {
 
         } elseif ($_GET['action'] === 'dashboard') {
             (new Dashboard())->execute();
+
+        } elseif ($_GET['action'] === 'inscription') {
+            (new Inscription())->execute($_POST);
+
+        } elseif ($_GET['action'] === 'login') {
+            (new Login())->execute($_POST);  
+
+        } elseif ($_GET['action'] === 'logout') {
+            (new Logout())->execute();
+
+        } elseif ($_GET['action'] === 'mail') {
+            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                $input = $_POST;
+            }
+            (new Mail())->execute($input);
 
         } elseif ($_GET['action'] === 'validationComment') {
             if (isset($_GET['id']) && $_GET['id'] > 0) {

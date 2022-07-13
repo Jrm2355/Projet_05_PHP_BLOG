@@ -23,7 +23,15 @@
                 <div class="collapse navbar-collapse " id="navbarResponsive" >
                     <ul class="navbar-nav ms-auto py-4 py-lg-0">
                         <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="index.php?action=listPosts">Articles</a></li>
-                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="index.php?action=dashboard">Dashboard</a></li>
+                        <?php
+                            if(!isset($_SESSION['logged'])){                          
+                         ?>  
+                            <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="index.php?action=inscription">Inscription</a></li>
+                            <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="index.php?action=login">Connexion</a></li>
+                        <?php } else {?>
+                            <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="index.php?action=dashboard">Dashboard</a></li>
+                            <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="index.php?action=logout">Deconnexion</a></li>
+                        <?php }?>
                     </ul>
                 </div>
             </div>
