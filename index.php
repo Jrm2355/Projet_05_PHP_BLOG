@@ -1,10 +1,15 @@
 <?php
 session_start();
 
+require_once('src/controllers/comment/add.php');
+require_once('src/controllers/comment/validation.php');
 require_once('src/controllers/homepage.php');
 require_once('src/controllers/post.php');
 require_once('src/controllers/dashboard.php');
 
+
+use Application\Controllers\Comment\Add\AddComment;
+use Application\Controllers\Comment\Validation\ValidationComment;
 use Application\Controllers\Homepage\Homepage;
 use Application\Controllers\Post\Post;
 use Application\Controllers\Post\ListPosts;
@@ -62,6 +67,11 @@ try {
         } elseif ($_GET['action'] === 'dashboard') {
             (new Dashboard())->execute();
 
+        } elseif ($_GET['action'] === 'validationComment') {
+            if (isset($_GET['id']) && $_GET['id'] > 0) {
+                $identifier = $_GET['id'];
+                (new ValidationComment())->execute($identifier);
+            }
         } else {
             throw new Exception("La page que vous recherchez n'existe pas.");
         }

@@ -7,6 +7,7 @@ require_once 'src/model/post.php';
 
 use Application\Lib\Database\DatabaseConnection;
 use Application\Model\Post\PostRepository;
+use Application\Model\Comment\CommentRepository;
 
 class Dashboard
 {
@@ -15,6 +16,10 @@ class Dashboard
         $postRepository = new PostRepository();
         $postRepository->connection = new DatabaseConnection();
         $posts = $postRepository->getPosts();
+
+        $commentRepository = new CommentRepository();
+        $commentRepository->connection = new DatabaseConnection();
+        $comments = $commentRepository->getAllComments();
 
         include 'templates/dashboard.php';
     }
