@@ -19,7 +19,7 @@
              <div class="col-md-10 col-lg-8 col-xl-7">
                 <p>Contactez moi à l'aide du formulaire ci-dessous !</p>
                 <div class="my-5">
-                    <form action="index.php?action=mail" method="post" id="contactForm" data-sb-form-api-token="API_TOKEN">
+                    <form action="index.php?action=mailer" method="post" id="contactForm" data-sb-form-api-token="API_TOKEN">
                         <div class="form-floating">
                             <input class="form-control" id="name" type="text" placeholder="Enter your name..." data-sb-validations="required" />
                             <label for="name">Nom</label>

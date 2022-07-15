@@ -1,20 +1,12 @@
 <?php
 
-namespace Application\Model\Comment;
+namespace Application\Repository;
 
 require_once 'src/lib/database.php';
+require_once 'src/model/CommentModel.php';
 
 use Application\Lib\Database\DatabaseConnection;
-
-class Comment
-{
-    public string $identifier;
-    public string $author;
-    public string $frenchCreationDate;
-    public string $comment;
-    public string $post;
-    public string $status;
-}
+use Application\Model\Comment;
 
 class CommentRepository
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Application\Controllers\Logout;
+namespace Application\Controllers;
 
 class Logout
 {

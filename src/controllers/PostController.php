@@ -1,18 +1,18 @@
 <?php
 
-namespace Application\Controllers\Post;
+namespace Application\Controllers;
 
 require_once 'src/lib/database.php';
-require_once 'src/model/comment.php';
-require_once 'src/model/post.php';
+require_once 'src/repository/PostRepository.php';
+require_once 'src/repository/CommentRepository.php';
 
 use Application\Lib\Database\DatabaseConnection;
-use Application\Model\Comment\CommentRepository;
-use Application\Model\Post\PostRepository;
+use Application\Repository\CommentRepository;
+use Application\Repository\PostRepository;
 
-class Post
+class PostController
 {
-    public function execute(string $identifier)
+    public function getPostAction(string $identifier)
     {
         $connection = new DatabaseConnection();
 
@@ -26,11 +26,8 @@ class Post
 
         include 'templates/post.php';
     }
-}
 
-class ListPosts
-{
-    public function execute()
+    public function getListPostsAction()
     {
         $connection = new DatabaseConnection();
 
@@ -40,11 +37,8 @@ class ListPosts
 
         include 'templates/list_posts.php';
     }
-}
 
-class AddPost
-{
-    public function execute(array $input)
+    public function addPostAction(array $input)
     {
         if(isset($_SESSION['logged'])){
             // It handles the form submission when there is an input.
@@ -68,31 +62,8 @@ class AddPost
             header('Location: index.php?action=login');
         }
     }
-}
 
-
-class DeletePost
-{
-    public function execute(string $identifier)
-    {
-        if(isset($_SESSION['logged'])){
-            $postRepository = new PostRepository();
-            $postRepository->connection = new DatabaseConnection();
-            $success = $postRepository->deletePost($identifier);
-            if (!$success) {
-                throw new \Exception('Impossible de supprimer l\'article !');
-            } else {
-                header('Location: index.php?action=dashboard');
-            }
-        } else {
-            header('Location: index.php?action=login');
-        }
-    }
-}
-
-class UpdatePost
-{
-    public function execute(string $identifier, ?array $input)
+    public function updatePostAction(string $identifier, ?array $input)
     {
         if(isset($_SESSION['logged'])){
             // It handles the form submission when there is an input.
@@ -127,5 +98,21 @@ class UpdatePost
         }
 
         include 'templates/update_post.php';
+    }
+
+    public function deletePostAction(string $identifier)
+    {
+        if(isset($_SESSION['logged'])){
+            $postRepository = new PostRepository();
+            $postRepository->connection = new DatabaseConnection();
+            $success = $postRepository->deletePost($identifier);
+            if (!$success) {
+                throw new \Exception('Impossible de supprimer l\'article !');
+            } else {
+                header('Location: index.php?action=dashboard');
+            }
+        } else {
+            header('Location: index.php?action=login');
+        }
     }
 }

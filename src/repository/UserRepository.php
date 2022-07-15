@@ -1,19 +1,14 @@
 <?php
 
-namespace Application\Model\User;
+namespace Application\Repository;
 
 require_once 'src/lib/database.php';
+require_once 'src/model/UserModel.php';
 
 use Application\Lib\Database\DatabaseConnection;
+use Application\model\User;
 
-class User
-{
-    public string $identifier;
-    public string $username;
-    public string $email;
-    public string $mdp;
 
-}
 
 class UserRepository
 {

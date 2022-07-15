@@ -1,16 +1,16 @@
 <?php
 
-namespace Application\Controllers\Inscription;
+namespace Application\Controllers;
 
 require_once 'src/lib/database.php';
-require_once 'src/model/user.php';
+require_once 'src/model/UserModel.php';
 
 use Application\Lib\Database\DatabaseConnection;
-use Application\Model\User\UserRepository;
+use Application\Repository\UserRepository;
 
-class Inscription
+class InscriptionController
 {
-    public function execute(array $input)
+    public function inscriptionAction(array $input)
     {
         // It handles the form submission when there is an input.
         if ($input !== null) {

@@ -1,19 +1,13 @@
 <?php
 
-namespace Application\Model\Post;
+namespace Application\Repository;
 
 require_once 'src/lib/database.php';
+require_once 'src/model/PostModel.php';
 
 use Application\Lib\Database\DatabaseConnection;
+use Application\Model\Post;
 
-class Post
-{
-    public string $title;
-    public string $frenchCreationDate;
-    public string $content;
-    public string $identifier;
-    public string $chapo;
-}
 
 class PostRepository
 {

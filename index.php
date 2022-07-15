@@ -1,35 +1,30 @@
 <?php
 session_start();
 
-require_once('src/controllers/comment/add.php');
-require_once('src/controllers/comment/validation.php');
-require_once('src/controllers/homepage.php');
-require_once('src/controllers/post.php');
-require_once('src/controllers/dashboard.php');
-require_once('src/controllers/inscription.php');
+require_once('vendor/autoload.php');
+require_once('src/controllers/CommentController.php');
+require_once('src/controllers/HomepageController.php');
+require_once('src/controllers/PostController.php');
+require_once('src/controllers/DashboardController.php');
+require_once('src/controllers/inscriptionController.php');
 require_once('src/controllers/login.php');
 require_once('src/controllers/logout.php');
 
-
-use Application\Controllers\Comment\Add\AddComment;
-use Application\Controllers\Comment\Validation\ValidationComment;
-use Application\Controllers\Homepage\Homepage;
-use Application\Controllers\Post\Post;
-use Application\Controllers\Post\ListPosts;
-use Application\Controllers\Post\AddPost;
-use Application\Controllers\Post\UpdatePost;
-use Application\Controllers\Post\DeletePost;
-use Application\Controllers\Dashboard\Dashboard;
+use Application\Controllers\PostController;
+use Application\Controllers\CommentController;
+use Application\Controllers\HomepageController;
+use Application\Controllers\DashboardController;
 use Application\Controllers\Inscription\Inscription;
-use Application\Controllers\Login\Login;
-use Application\Controllers\Logout\Logout;
+use Application\Controllers\Login;
+use Application\Controllers\Logout;
+
 
 try {
     if (isset($_GET['action']) && $_GET['action'] !== '') {
         if ($_GET['action'] === 'post') {
             if (isset($_GET['id']) && $_GET['id'] > 0) {
                 $identifier = $_GET['id'];
-                (new Post())->execute($identifier);
+                (new PostController())->getPostAction($identifier);
             } else {
                 throw new Exception('Aucun identifiant de billet envoyé');
             }
@@ -37,13 +32,13 @@ try {
         } elseif ($_GET['action'] === 'addComment') {
             if (isset($_GET['id']) && $_GET['id'] > 0) {
                 $identifier = $_GET['id'];
-                (new AddComment())->execute($identifier, $_POST);
+                (new CommentController())->addCommentAction($identifier, $_POST);
             } else {
                 throw new Exception('Aucun identifiant de billet envoyé');
             }
 
         } elseif ($_GET['action'] === 'addPost') {
-            (new AddPost())->execute($_POST);
+            (new PostController())->addPostAction($_POST);
 
         } elseif ($_GET['action'] === 'updatePost') {
             if (isset($_GET['id']) && $_GET['id'] > 0) {
@@ -53,7 +48,7 @@ try {
                 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $input = $_POST;
                 }
-                (new UpdatePost())->execute($identifier, $input);
+                (new PostController())->updatePostAction($identifier, $input);
             } else {
                 throw new Exception('Aucun identifiant de commentaire envoyé');
             }
@@ -61,16 +56,16 @@ try {
         } elseif ($_GET['action'] === 'deletePost') {
             if (isset($_GET['id']) && $_GET['id'] > 0) {
                 $identifier = $_GET['id'];
-                (new DeletePost())->execute($identifier);
+                (new PostController())->deletePostAction($identifier);
             } else {
                 throw new Exception('Aucun identifiant de billet envoyé');
             }
 
         } elseif ($_GET['action'] === 'listPosts') {
-            (new ListPosts())->execute();
+            (new PostController())->getListPostsAction();
 
         } elseif ($_GET['action'] === 'dashboard') {
-            (new Dashboard())->execute();
+            (new DashboardController())->execute();
 
         } elseif ($_GET['action'] === 'inscription') {
             (new Inscription())->execute($_POST);
@@ -80,23 +75,17 @@ try {
 
         } elseif ($_GET['action'] === 'logout') {
             (new Logout())->execute();
-
-        } elseif ($_GET['action'] === 'mail') {
-            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                $input = $_POST;
-            }
-            (new Mail())->execute($input);
-
+            
         } elseif ($_GET['action'] === 'validationComment') {
             if (isset($_GET['id']) && $_GET['id'] > 0) {
                 $identifier = $_GET['id'];
-                (new ValidationComment())->execute($identifier);
+                (new CommentController())->validationCommentAction($identifier);
             }
         } else {
             throw new Exception("La page que vous recherchez n'existe pas.");
         }
     } else {
-        (new Homepage())->execute();
+        (new HomepageController())->execute();
     }
 } catch (Exception $e) {
     $errorMessage = $e->getMessage();

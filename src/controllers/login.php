@@ -1,12 +1,12 @@
 <?php
 
-namespace Application\Controllers\Login;
+namespace Application\Controllers;
 
 require_once 'src/lib/database.php';
-require_once 'src/model/user.php';
+require_once 'src/repository/UserRepository.php';
 
 use Application\Lib\Database\DatabaseConnection;
-use Application\Model\User\UserRepository;
+use Application\Repository\UserRepository;
 
 class Login
 {

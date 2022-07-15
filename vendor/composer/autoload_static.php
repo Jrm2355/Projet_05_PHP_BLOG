@@ -24,6 +24,10 @@ class ComposerStaticInit4c7671298fc9dd1ccb18a53b9ce58042
             'Symfony\\Polyfill\\Intl\\Idn\\' => 26,
             'Symfony\\Polyfill\\Iconv\\' => 23,
         ),
+        'P' => 
+        array (
+            'PHPMailer\\PHPMailer\\' => 20,
+        ),
         'J' => 
         array (
             'Jerem\\App\\' => 10,
@@ -58,6 +62,10 @@ class ComposerStaticInit4c7671298fc9dd1ccb18a53b9ce58042
         'Symfony\\Polyfill\\Iconv\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-iconv',
+        ),
+        'PHPMailer\\PHPMailer\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/phpmailer/phpmailer/src',
         ),
         'Jerem\\App\\' => 
         array (
