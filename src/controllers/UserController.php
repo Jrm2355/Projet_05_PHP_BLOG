@@ -8,9 +8,31 @@ require_once 'src/repository/UserRepository.php';
 use Application\Lib\Database\DatabaseConnection;
 use Application\Repository\UserRepository;
 
-class Login
+class UserController
 {
-    public function execute(array $input)
+    public function inscriptionAction(array $input)
+    {
+        // It handles the form submission when there is an input.
+        if ($input !== null) {
+            $email = null;
+            $mdp = null;
+            $username = null;
+            if (!empty($input['email']) && !empty($input['mdp']) && !empty($input['username'])) {
+                $email = $input['email'];
+                $mdp = $input['mdp'];
+                $username = $input['username'];
+
+                $userRepository = new UserRepository();
+                $userRepository->connection = new DatabaseConnection();
+                $success = $userRepository->createUser($username, $email, $mdp);
+                header('Location: index.php?action=login');
+            } 
+            include 'templates/inscription.php';
+        }
+           
+    }
+
+    public function loginAction(array $input)
     {
         // It handles the form submission when there is an input.
         if ($input !== null) {
@@ -37,4 +59,13 @@ class Login
             include 'templates/login.php';
         }
     }
+
+    public function logoutAction()
+    {
+        session_destroy();
+
+        header('Location: index.php?action=login'); 
+
+    }  
+
 }

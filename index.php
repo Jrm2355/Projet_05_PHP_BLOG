@@ -6,17 +6,13 @@ require_once('src/controllers/CommentController.php');
 require_once('src/controllers/HomepageController.php');
 require_once('src/controllers/PostController.php');
 require_once('src/controllers/DashboardController.php');
-require_once('src/controllers/inscriptionController.php');
-require_once('src/controllers/login.php');
-require_once('src/controllers/logout.php');
+require_once('src/controllers/UserController.php');
 
 use Application\Controllers\PostController;
 use Application\Controllers\CommentController;
 use Application\Controllers\HomepageController;
 use Application\Controllers\DashboardController;
-use Application\Controllers\Inscription\Inscription;
-use Application\Controllers\Login;
-use Application\Controllers\Logout;
+use Application\Controllers\UserController;
 
 
 try {
@@ -68,13 +64,13 @@ try {
             (new DashboardController())->execute();
 
         } elseif ($_GET['action'] === 'inscription') {
-            (new Inscription())->execute($_POST);
+            (new UserController())->inscriptionAction($_POST);
 
         } elseif ($_GET['action'] === 'login') {
-            (new Login())->execute($_POST);  
+            (new UserController())->loginAction($_POST);  
 
         } elseif ($_GET['action'] === 'logout') {
-            (new Logout())->execute();
+            (new UserController())->logoutAction();
             
         } elseif ($_GET['action'] === 'validationComment') {
             if (isset($_GET['id']) && $_GET['id'] > 0) {
