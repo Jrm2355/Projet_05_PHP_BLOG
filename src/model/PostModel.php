@@ -7,11 +7,14 @@ require_once 'src/lib/database.php';
 use Application\Lib\Database\DatabaseConnection;
 
 class Post
-{
-    public string $title;
-    public string $frenchCreationDate;
-    public string $content;
+{   
     public string $identifier;
-    public string $chapo;
+    public string $title;
+    public string $chapo;    
+    public string $content; 
+    public string $author;  
+    public string $frenchCreationDate;
+    public string $frenchModificationDate;
+    
 }
 

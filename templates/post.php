@@ -24,7 +24,11 @@
                 <p><?= nl2br(htmlspecialchars($post->content)) ?>
                 <?= htmlspecialchars($post->chapo) ?>
                 </p>
-                <em>le <?= $post->frenchCreationDate ?></em>
+                <?php if($post->frenchCreationDate === $post->frenchModificationDate){ ?>
+                    <em>écrit par <?= $post->author ?>  le <?= $post->frenchCreationDate ?></em>
+                <?php } else { ?>
+                    <em>modifié par <?= $post->author ?> le <?= $post->frenchModificationDate ?></em>
+                <?php }?>
             </div>
         </div>
     </div>

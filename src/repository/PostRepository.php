@@ -16,7 +16,7 @@ class PostRepository
     public function getPost(string $identifier): Post
     {
         $statement = $this->connection->getConnection()->prepare(
-            "SELECT id, title, chapo, content, DATE_FORMAT(creation_date, '%d/%m/%Y à %Hh%imin%ss') AS french_creation_date FROM posts WHERE id = ?"
+            "SELECT id, title, chapo, content, author, DATE_FORMAT(creation_date, '%d/%m/%Y à %Hh%imin%ss') AS french_creation_date, DATE_FORMAT(modification_date, '%d/%m/%Y à %Hh%imin%ss') AS french_modification_date FROM posts WHERE id = ?"
         );
         $statement->execute([$identifier]);
 
@@ -24,9 +24,11 @@ class PostRepository
         $post = new Post();
         $post->title = $row['title'];
         $post->frenchCreationDate = $row['french_creation_date'];
+        $post->frenchModificationDate = $row['french_modification_date'];
         $post->content = $row['content'];
         $post->identifier = $row['id'];
         $post->chapo = $row['chapo'];
+        $post->author = $row['author'];
 
         return $post;
     }
@@ -34,14 +36,16 @@ class PostRepository
     public function getPosts(): array
     {
         $statement = $this->connection->getConnection()->query(
-            "SELECT id, title, chapo, content, DATE_FORMAT(creation_date, '%d/%m/%Y à %Hh%imin%ss') AS french_creation_date FROM posts ORDER BY creation_date DESC LIMIT 0, 5"
+            "SELECT id, title, chapo, content, author,  DATE_FORMAT(creation_date, '%d/%m/%Y à %Hh%imin%ss') AS french_creation_date, DATE_FORMAT(modification_date, '%d/%m/%Y à %Hh%imin%ss') AS french_modification_date FROM posts ORDER BY creation_date DESC LIMIT 0, 5"
         );
         $posts = [];
         while (($row = $statement->fetch())) {
             $post = new Post();
             $post->title = $row['title'];
             $post->frenchCreationDate = $row['french_creation_date'];
+            $post->frenchModificationDate = $row['french_modification_date'];
             $post->content = $row['content'];
+            $post->author = $row['author'];
             $post->identifier = $row['id'];
             $post->chapo = $row['chapo'];
 
@@ -51,22 +55,22 @@ class PostRepository
         return $posts;
     }
 
-    public function createPost(string $title, string $chapo, string $content): bool
+    public function createPost(string $title, string $chapo, string $content, string $author): bool
     {
         $statement = $this->connection->getConnection()->prepare(
-            'INSERT INTO posts(title, chapo, content, creation_date) VALUES(?, ?, ?, NOW())'
+            'INSERT INTO posts(title, chapo, content, author, creation_date, modification_date) VALUES(?, ?, ?, ?, NOW(), NOW())'
         );
-        $affectedLines = $statement->execute([$title, $chapo, $content]);
+        $affectedLines = $statement->execute([$title, $chapo, $content, $author]);
 
         return ($affectedLines > 0);
     }
 
-    public function updatePost(string $identifier, string $title, string $chapo, string $content): bool
+    public function updatePost(string $identifier, string $title, string $chapo, string $content, string $author): bool
     {
         $statement = $this->connection->getConnection()->prepare(
-            'UPDATE posts SET title = ?, chapo = ?, content = ? WHERE id = ?'
+            'UPDATE posts SET title = ?, chapo = ?, content = ?, author = ?, modification_date = NOW() WHERE id = ?'
         );
-        $affectedLines = $statement->execute([$title, $chapo, $content, $identifier]);
+        $affectedLines = $statement->execute([$title, $chapo, $content, $author, $identifier]);
         return ($affectedLines > 0);
     }
 

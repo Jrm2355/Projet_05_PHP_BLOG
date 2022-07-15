@@ -50,10 +50,11 @@ class PostController
                     $title = $input['title'];
                     $chapo = $input['chapo'];
                     $content = $input['content'];
+                    $author = $_SESSION['name'];
 
                     $postRepository = new PostRepository();
                     $postRepository->connection = new DatabaseConnection();
-                    $success = $postRepository->createPost($title, $chapo, $content);
+                    $success = $postRepository->createPost($title, $chapo, $content, $author);
                     header('Location: index.php?action=dashboard');
                 }
             }
@@ -75,13 +76,14 @@ class PostController
                     $title = $input['title'];
                     $chapo = $input['chapo'];
                     $content = $input['content'];
+                    $author = $_SESSION['name'];
                 } else {
                     throw new \Exception('Les données du formulaire sont invalides.');
                 }
 
                 $postRepository = new PostRepository();
                 $postRepository->connection = new DatabaseConnection();
-                $postRepository->updatePost($identifier, $title, $chapo, $content);
+                $postRepository->updatePost($identifier, $title, $chapo, $content, $author);
                 header('Location: index.php?action=post&id=' . $identifier);
                 
             }
