@@ -7,11 +7,14 @@ require_once 'src/repository/UserRepository.php';
 
 use Application\Lib\Database\DatabaseConnection;
 use Application\Repository\UserRepository;
+use Symfony\Component\HttpFoundation\Request;
 
 class UserController
 {
-    public function inscriptionAction(array $input)
+    public function inscriptionAction()
     {
+        $request = Request::createFromGlobals();
+        $input = $request->request->all();
         // It handles the form submission when there is an input.
         if ($input !== null) {
             $email = null;
@@ -32,8 +35,10 @@ class UserController
            
     }
 
-    public function loginAction(array $input)
+    public function loginAction()
     {
+        $request = Request::createFromGlobals();
+        $input = $request->request->all();
         // It handles the form submission when there is an input.
         if ($input !== null) {
             $email = null;

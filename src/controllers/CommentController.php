@@ -7,37 +7,46 @@ require_once 'src/repository/CommentRepository.php';
 
 use Application\Lib\Database\DatabaseConnection;
 use Application\Repository\CommentRepository;
+use Symfony\Component\HttpFoundation\Request;
 
 class CommentController
 {
-    public function addCommentAction(string $post, array $input)
+    public function addCommentAction()
     {
-        $author = null;
-        $comment = null;
-        if (!empty($input['author']) && !empty($input['comment'])) {
-            $author = $input['author'];
-            $comment = $input['comment'];
-        } else {
-            throw new \Exception('Les données du formulaire sont invalides.');
-        }
-
-        $commentRepository = new CommentRepository();
-        $commentRepository->connection = new DatabaseConnection();
-        $success = $commentRepository->createComment($post, $author, $comment);
-
-        header('Location: index.php?action=post&id=' . $post);        
-    }
-
-    public function validationCommentAction(string $identifier)
-    {
-        if(isset($_SESSION['logged'])){
+        $request = Request::createFromGlobals();
+        if(null !== $request->query->get('id') && $request->query->get('id') > 0){
+            $identifier = $request->query->get('id');
+            $author = null;
+            $comment = null;
+            $input = $request->request->all();
+            if (!empty($input['author']) && !empty($input['comment'])) {
+                $author = $input['author'];
+                $comment = $input['comment'];
+            } else {
+                throw new \Exception('Les données du formulaire sont invalides.');
+            }
             $commentRepository = new CommentRepository();
             $commentRepository->connection = new DatabaseConnection();
-            $commentRepository->validationComment($identifier);
+            $success = $commentRepository->createComment($identifier, $author, $comment);
 
-            header('Location: index.php?action=dashboard');
-        } else {
-            header('Location: index.php?action=login');
+            header('Location: index.php?action=post&id=' . $identifier);
+        }     
+    }
+
+    public function validationCommentAction()
+    {
+        $request = Request::createFromGlobals();
+        if(null !== $request->query->get('id') && $request->query->get('id') > 0){
+            $identifier = $request->query->get('id');
+            if(isset($_SESSION['logged'])){
+                $commentRepository = new CommentRepository();
+                $commentRepository->connection = new DatabaseConnection();
+                $commentRepository->validationComment($identifier);
+
+                header('Location: index.php?action=dashboard');
+            } else {
+                header('Location: index.php?action=login');
+            }
         }
     }
 }

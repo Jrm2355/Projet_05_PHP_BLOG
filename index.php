@@ -13,70 +13,45 @@ use Application\Controllers\CommentController;
 use Application\Controllers\HomepageController;
 use Application\Controllers\DashboardController;
 use Application\Controllers\UserController;
+use Symfony\Component\HttpFoundation\Request;
 
+$request = Request::createFromGlobals();
 
 try {
-    if (isset($_GET['action']) && $_GET['action'] !== '') {
-        if ($_GET['action'] === 'post') {
-            if (isset($_GET['id']) && $_GET['id'] > 0) {
-                $identifier = $_GET['id'];
-                (new PostController())->getPostAction($identifier);
-            } else {
-                throw new Exception('Aucun identifiant de billet envoyé');
-            }
+    if (null !== $request->query->get('action') && $request->query->get('action') !== '') {
+        if ($request->query->get('action') === 'post') {
+            (new PostController())->getPostAction();
 
-        } elseif ($_GET['action'] === 'addComment') {
-            if (isset($_GET['id']) && $_GET['id'] > 0) {
-                $identifier = $_GET['id'];
-                (new CommentController())->addCommentAction($identifier, $_POST);
-            } else {
-                throw new Exception('Aucun identifiant de billet envoyé');
-            }
+        } elseif ($request->query->get('action') === 'addComment') {
+            (new CommentController())->addCommentAction();
 
-        } elseif ($_GET['action'] === 'addPost') {
-            (new PostController())->addPostAction($_POST);
+        } elseif ($request->query->get('action') === 'addPost') {
+            (new PostController())->addPostAction();
 
-        } elseif ($_GET['action'] === 'updatePost') {
-            if (isset($_GET['id']) && $_GET['id'] > 0) {
-                $identifier = $_GET['id'];
-                // It sets the input only when the HTTP method is POST (ie. the form is submitted).
-                $input = null;
-                if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                    $input = $_POST;
-                }
-                (new PostController())->updatePostAction($identifier, $input);
-            } else {
-                throw new Exception('Aucun identifiant de commentaire envoyé');
-            }
+        } elseif ($request->query->get('action') === 'updatePost') {
+            (new PostController())->updatePostAction();
 
-        } elseif ($_GET['action'] === 'deletePost') {
-            if (isset($_GET['id']) && $_GET['id'] > 0) {
-                $identifier = $_GET['id'];
-                (new PostController())->deletePostAction($identifier);
-            } else {
-                throw new Exception('Aucun identifiant de billet envoyé');
-            }
+        } elseif ($request->query->get('action') === 'deletePost') {
+            (new PostController())->deletePostAction();
 
-        } elseif ($_GET['action'] === 'listPosts') {
+        } elseif ($request->query->get('action') === 'listPosts') {
             (new PostController())->getListPostsAction();
 
-        } elseif ($_GET['action'] === 'dashboard') {
+        } elseif ($request->query->get('action') === 'dashboard') {
             (new DashboardController())->execute();
 
-        } elseif ($_GET['action'] === 'inscription') {
-            (new UserController())->inscriptionAction($_POST);
+        } elseif ($request->query->get('action') === 'inscription') {
+            (new UserController())->inscriptionAction();
 
         } elseif ($_GET['action'] === 'login') {
-            (new UserController())->loginAction($_POST);  
+            (new UserController())->loginAction();  
 
-        } elseif ($_GET['action'] === 'logout') {
+        } elseif ($request->query->get('action') === 'logout') {
             (new UserController())->logoutAction();
             
-        } elseif ($_GET['action'] === 'validationComment') {
-            if (isset($_GET['id']) && $_GET['id'] > 0) {
-                $identifier = $_GET['id'];
-                (new CommentController())->validationCommentAction($identifier);
-            }
+        } elseif ($request->query->get('action') === 'validationComment') {
+            (new CommentController())->validationCommentAction();
+
         } else {
             throw new Exception("La page que vous recherchez n'existe pas.");
         }
