@@ -43,7 +43,7 @@ try {
         } elseif ($request->query->get('action') === 'inscription') {
             (new UserController())->inscriptionAction();
 
-        } elseif ($_GET['action'] === 'login') {
+        } elseif ($request->query->get('action') === 'login') {
             (new UserController())->loginAction();  
 
         } elseif ($request->query->get('action') === 'logout') {

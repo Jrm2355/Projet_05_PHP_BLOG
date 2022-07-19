@@ -25,9 +25,9 @@
                 <?= htmlspecialchars($post->chapo) ?>
                 </p>
                 <?php if($post->frenchCreationDate === $post->frenchModificationDate){ ?>
-                    <em>écrit par <?= $post->author ?>  le <?= $post->frenchCreationDate ?></em>
+                    <em>écrit par <?= $user->username ?>  le <?= $post->frenchCreationDate ?></em>
                 <?php } else { ?>
-                    <em>modifié par <?= $post->author ?> le <?= $post->frenchModificationDate ?></em>
+                    <em>modifié par <?= $user->username ?> le <?= $post->frenchModificationDate ?></em>
                 <?php }?>
             </div>
         </div>

@@ -5,11 +5,14 @@ namespace Application\Controllers;
 require_once 'src/lib/database.php';
 require_once 'src/repository/PostRepository.php';
 require_once 'src/repository/CommentRepository.php';
+require_once 'src/repository/UserRepository.php';
 
 use Application\Lib\Database\DatabaseConnection;
 use Application\Repository\CommentRepository;
 use Application\Repository\PostRepository;
+use Application\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class PostController
 {
@@ -28,6 +31,11 @@ class PostController
             $commentRepository->connection = $connection;
             $comments = $commentRepository->getComments($identifier);
 
+            $userId = $post->author;
+            $userRepository = new UserRepository();
+            $userRepository->connection = $connection;
+            $user = $userRepository->getUserWithId((string)$userId);
+            
             include 'templates/post.php';
         } else {
             throw new Exception('Aucun identifiant de billet envoyé');
@@ -50,6 +58,11 @@ class PostController
     {
         $request = Request::createFromGlobals();
         $input = $request->request->all();
+        /*$response = new Response(
+            'Content',
+            Response::HTTP_OK,
+            ['content-type' => 'text/html']
+        );*/
         if(isset($_SESSION['logged'])){
             // It handles the form submission when there is an input.
             if ($input !== null) {
@@ -60,12 +73,16 @@ class PostController
                     $title = $input['title'];
                     $chapo = $input['chapo'];
                     $content = $input['content'];
-                    $author = $_SESSION['name'];
+                    $author = $_SESSION['loggedId'];
 
                     $postRepository = new PostRepository();
                     $postRepository->connection = new DatabaseConnection();
                     $success = $postRepository->createPost($title, $chapo, $content, $author);
                     header('Location: index.php?action=dashboard');
+
+                    /* $response->prepare($request);
+                    $response->send(); */
+                
                 }
             }
                 include 'templates/add_post.php';
@@ -94,7 +111,7 @@ class PostController
                         $title = $input['title'];
                         $chapo = $input['chapo'];
                         $content = $input['content'];
-                        $author = $_SESSION['name'];
+                        $author = $_SESSION['loggedId'];
                     } else {
                         throw new \Exception('Les données du formulaire sont invalides.');
                     }

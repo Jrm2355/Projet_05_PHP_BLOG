@@ -8,6 +8,7 @@ require_once 'src/repository/UserRepository.php';
 use Application\Lib\Database\DatabaseConnection;
 use Application\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 class UserController
 {
@@ -50,8 +51,11 @@ class UserController
                 $userRepository = new UserRepository();
                 $userRepository->connection = new DatabaseConnection();
                 $user = $userRepository->getUser($email, $mdp);
-
                 if ($user->identifier) {
+                    //  $session = $session->requestStack->getSession();
+                    // $session->set('logged', 1);
+                    // $session->set('name' , $user->username);
+                    // $session->set('name' , $user->identifier);
                     $_SESSION['logged']=1;
                     $_SESSION['name']= $user->username;
                     $_SESSION['loggedId'] = $user->identifier;

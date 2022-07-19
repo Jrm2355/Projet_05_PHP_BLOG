@@ -24,7 +24,7 @@ class UserRepository
         return ($affectedLines > 0);
     }
 
-    public function getUsers(): array
+   /* public function getUsers(): array
     {
         $statement = $this->connection->getConnection()->query(
             "SELECT * FROM users"
@@ -41,7 +41,7 @@ class UserRepository
         }
 
         return $users;
-    }
+    }*/
 
     public function getUser(string $email, string $mdp)
     {   
@@ -57,6 +57,21 @@ class UserRepository
             $user->email = $row['email'];
             $user->username = $row['username'];
         }
+        return $user;        
+    }
+
+    public function getUserWithId(string $identifier)
+    {   
+        $statement = $this->connection->getConnection()->prepare(
+            "SELECT * FROM users WHERE id = ?"
+        );
+        $statement->execute([$identifier]);
+
+        $row = $statement->fetch();
+        $user = new User();
+        $user->identifier = $row['id'];
+        $user->email = $row['email'];
+        $user->username = $row['username'];
         return $user;        
     }
 }
