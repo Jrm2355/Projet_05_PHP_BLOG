@@ -2,10 +2,6 @@
 
 namespace Application\Controllers;
 
-require_once 'src/lib/database.php';
-require_once 'src/repository/CommentRepository.php';
-
-use Application\Lib\Database\DatabaseConnection;
 use Application\Repository\CommentRepository;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -26,7 +22,6 @@ class CommentController
                 throw new \Exception('Les données du formulaire sont invalides.');
             }
             $commentRepository = new CommentRepository();
-            $commentRepository->connection = new DatabaseConnection();
             $success = $commentRepository->createComment($identifier, $author, $comment);
 
             header('Location: index.php?action=post&id=' . $identifier);
@@ -40,7 +35,6 @@ class CommentController
             $identifier = $request->query->get('id');
             if(isset($_SESSION['logged'])){
                 $commentRepository = new CommentRepository();
-                $commentRepository->connection = new DatabaseConnection();
                 $commentRepository->validationComment($identifier);
 
                 header('Location: index.php?action=dashboard');

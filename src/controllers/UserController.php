@@ -2,10 +2,6 @@
 
 namespace Application\Controllers;
 
-require_once 'src/lib/database.php';
-require_once 'src/repository/UserRepository.php';
-
-use Application\Lib\Database\DatabaseConnection;
 use Application\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -27,7 +23,6 @@ class UserController
                 $username = $input['username'];
 
                 $userRepository = new UserRepository();
-                $userRepository->connection = new DatabaseConnection();
                 $success = $userRepository->createUser($username, $email, $mdp);
                 header('Location: index.php?action=login');
             } 
@@ -49,7 +44,6 @@ class UserController
                 $mdp = $input['mdp'];
             
                 $userRepository = new UserRepository();
-                $userRepository->connection = new DatabaseConnection();
                 $user = $userRepository->getUser($email, $mdp);
                 if ($user->identifier) {
                     //  $session = $session->requestStack->getSession();

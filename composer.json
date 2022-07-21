@@ -4,7 +4,12 @@
     "type": "project",
     "autoload": {
         "psr-4": {
-            "Jerem\\App\\": "src/"
+            "Appplication\\": "src/",
+            "Application\\Controllers\\": "src/controllers/",
+            "Application\\Model\\": "src/model/",
+            "Application\\Repository\\" : "src/repository/",
+            "Application\\Lib\\" : "src/lib/"
+
         }
     },
     "authors": [

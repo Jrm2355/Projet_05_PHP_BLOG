@@ -2,11 +2,6 @@
 session_start();
 
 require_once('vendor/autoload.php');
-require_once('src/controllers/CommentController.php');
-require_once('src/controllers/HomepageController.php');
-require_once('src/controllers/PostController.php');
-require_once('src/controllers/DashboardController.php');
-require_once('src/controllers/UserController.php');
 
 use Application\Controllers\PostController;
 use Application\Controllers\CommentController;

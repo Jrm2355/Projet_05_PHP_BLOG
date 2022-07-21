@@ -7,14 +7,12 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'Symfony\\Polyfill\\Php80\\' => array($vendorDir . '/symfony/polyfill-php80'),
-    'Symfony\\Polyfill\\Php72\\' => array($vendorDir . '/symfony/polyfill-php72'),
     'Symfony\\Polyfill\\Mbstring\\' => array($vendorDir . '/symfony/polyfill-mbstring'),
-    'Symfony\\Polyfill\\Intl\\Normalizer\\' => array($vendorDir . '/symfony/polyfill-intl-normalizer'),
-    'Symfony\\Polyfill\\Intl\\Idn\\' => array($vendorDir . '/symfony/polyfill-intl-idn'),
-    'Symfony\\Polyfill\\Iconv\\' => array($vendorDir . '/symfony/polyfill-iconv'),
     'Symfony\\Component\\HttpFoundation\\' => array($vendorDir . '/symfony/http-foundation'),
     'PHPMailer\\PHPMailer\\' => array($vendorDir . '/phpmailer/phpmailer/src'),
-    'Jerem\\App\\' => array($baseDir . '/src'),
-    'Egulias\\EmailValidator\\' => array($vendorDir . '/egulias/email-validator/src'),
-    'Doctrine\\Common\\Lexer\\' => array($vendorDir . '/doctrine/lexer/lib/Doctrine/Common/Lexer'),
+    'Appplication\\' => array($baseDir . '/src'),
+    'Application\\Repository\\' => array($baseDir . '/src/repository'),
+    'Application\\Model\\' => array($baseDir . '/src/model'),
+    'Application\\Lib\\' => array($baseDir . '/src/lib'),
+    'Application\\Controllers\\' => array($baseDir . '/src/controllers'),
 );

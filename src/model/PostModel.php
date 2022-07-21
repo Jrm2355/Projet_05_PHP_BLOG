@@ -2,11 +2,9 @@
 
 namespace Application\Model;
 
-require_once 'src/lib/database.php';
+use Application\Lib\DatabaseConnection;
 
-use Application\Lib\Database\DatabaseConnection;
-
-class Post
+class PostModel
 {   
     public string $identifier;
     public string $title;

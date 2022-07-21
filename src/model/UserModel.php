@@ -2,11 +2,9 @@
 
 namespace Application\Model;
 
-require_once 'src/lib/database.php';
+use Application\Lib\DatabaseConnection;
 
-use Application\Lib\Database\DatabaseConnection;
-
-class User
+class UserModel
 {
     public string $identifier;
     public string $username;

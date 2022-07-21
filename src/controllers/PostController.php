@@ -2,17 +2,12 @@
 
 namespace Application\Controllers;
 
-require_once 'src/lib/database.php';
-require_once 'src/repository/PostRepository.php';
-require_once 'src/repository/CommentRepository.php';
-require_once 'src/repository/UserRepository.php';
-
-use Application\Lib\Database\DatabaseConnection;
 use Application\Repository\CommentRepository;
 use Application\Repository\PostRepository;
 use Application\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use PHPMailer\PHPMailer\Exception;
 
 class PostController
 {
@@ -21,19 +16,15 @@ class PostController
         $request = Request::createFromGlobals();
         if ( null !== $request->query->get('action') && (null !== $request->query->get('id')) > 0) {
             $identifier = $request->query->get('id');
-            $connection = new DatabaseConnection();
 
             $postRepository = new PostRepository();
-            $postRepository->connection = $connection;
             $post = $postRepository->getPost($identifier);
 
             $commentRepository = new CommentRepository();
-            $commentRepository->connection = $connection;
             $comments = $commentRepository->getComments($identifier);
 
             $userId = $post->author;
             $userRepository = new UserRepository();
-            $userRepository->connection = $connection;
             $user = $userRepository->getUserWithId((string)$userId);
             
             include 'templates/post.php';
@@ -45,10 +36,7 @@ class PostController
 
     public function getListPostsAction()
     {
-        $connection = new DatabaseConnection();
-
         $postRepository = new PostRepository();
-        $postRepository->connection = $connection;
         $posts = $postRepository->getPosts();
 
         include 'templates/list_posts.php';
@@ -76,7 +64,6 @@ class PostController
                     $author = $_SESSION['loggedId'];
 
                     $postRepository = new PostRepository();
-                    $postRepository->connection = new DatabaseConnection();
                     $success = $postRepository->createPost($title, $chapo, $content, $author);
                     header('Location: index.php?action=dashboard');
 
@@ -117,7 +104,6 @@ class PostController
                     }
     
                     $postRepository = new PostRepository();
-                    $postRepository->connection = new DatabaseConnection();
                     $postRepository->updatePost($identifier, $title, $chapo, $content, $author);
                     header('Location: index.php?action=post&id=' . $identifier);
                     
@@ -125,7 +111,6 @@ class PostController
     
                 // Otherwise, it displays the form.
                 $postRepository = new PostRepository();
-                $postRepository->connection = new DatabaseConnection();
                 $post = $postRepository->getPost($identifier);
                 if ($post === null) {
                     throw new \Exception("Le contentaire $identifier n'existe pas.");
@@ -146,7 +131,6 @@ class PostController
             $identifier = $request->query->get('id');
             if(isset($_SESSION['logged'])){
                 $postRepository = new PostRepository();
-                $postRepository->connection = new DatabaseConnection();
                 $success = $postRepository->deletePost($identifier);
                 if (!$success) {
                     throw new \Exception('Impossible de supprimer l\'article !');
