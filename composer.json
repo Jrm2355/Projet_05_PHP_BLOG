@@ -2,7 +2,7 @@
     "name": "jerem/app",
     "description": "Projet 05 Premier Blog",
     "type": "project",
-    "license": "openclassroom",
+    "license": "proprietary",
     "autoload": {
         "psr-4": {
             "Appplication\\": "src/",
