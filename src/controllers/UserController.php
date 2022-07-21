@@ -46,10 +46,6 @@ class UserController
                 $userRepository = new UserRepository();
                 $user = $userRepository->getUser($email, $mdp);
                 if ($user->identifier) {
-                    //  $session = $session->requestStack->getSession();
-                    // $session->set('logged', 1);
-                    // $session->set('name' , $user->username);
-                    // $session->set('name' , $user->identifier);
                     $_SESSION['logged']=1;
                     $_SESSION['name']= $user->username;
                     $_SESSION['loggedId'] = $user->identifier;

@@ -46,11 +46,6 @@ class PostController
     {
         $request = Request::createFromGlobals();
         $input = $request->request->all();
-        /*$response = new Response(
-            'Content',
-            Response::HTTP_OK,
-            ['content-type' => 'text/html']
-        );*/
         if(isset($_SESSION['logged'])){
             // It handles the form submission when there is an input.
             if ($input !== null) {
@@ -66,10 +61,6 @@ class PostController
                     $postRepository = new PostRepository();
                     $success = $postRepository->createPost($title, $chapo, $content, $author);
                     header('Location: index.php?action=dashboard');
-
-                    /* $response->prepare($request);
-                    $response->send(); */
-                
                 }
             }
                 include 'templates/add_post.php';
