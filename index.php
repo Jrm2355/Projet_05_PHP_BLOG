@@ -8,6 +8,7 @@ use Application\Controllers\CommentController;
 use Application\Controllers\HomepageController;
 use Application\Controllers\DashboardController;
 use Application\Controllers\UserController;
+use Application\Controllers\mailController;
 use Symfony\Component\HttpFoundation\Request;
 
 $request = Request::createFromGlobals();
@@ -46,6 +47,12 @@ try {
             
         } elseif ($request->query->get('action') === 'validationComment') {
             (new CommentController())->validationCommentAction();
+
+        } elseif ($request->query->get('action') === 'mailer') {
+            (new HomepageController())->mailer();
+
+        //} elseif ($request->query->get('action') === 'mailer') {
+            //(new mailController())->mailer();
 
         } else {
             throw new Exception("La page que vous recherchez n'existe pas.");
