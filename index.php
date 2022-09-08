@@ -51,9 +51,6 @@ try {
         } elseif ($request->query->get('action') === 'mailer') {
             (new HomepageController())->mailer();
 
-        //} elseif ($request->query->get('action') === 'mailer') {
-            //(new mailController())->mailer();
-
         } else {
             throw new Exception("La page que vous recherchez n'existe pas.");
         }
