@@ -24,11 +24,10 @@ class UserController
 
                 $userRepository = new UserRepository();
                 $success = $userRepository->createUser($username, $email, $mdp);
-                header('Location: index.php?action=login');
+                header('Location: /login');
             } 
             include 'templates/inscription.php';
         }
-           
     }
 
     public function loginAction()

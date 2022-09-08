@@ -25,7 +25,7 @@
                         <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="index.php?action=listPosts">Articles</a></li>
                         <?php
                             if(!isset($_SESSION['logged'])){                          
-                         ?>  
+                        ?>  
                             <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="index.php?action=inscription">Inscription</a></li>
                             <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="index.php?action=login">Connexion</a></li>
                         <?php } else {?>
