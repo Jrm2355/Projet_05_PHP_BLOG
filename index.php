@@ -8,7 +8,6 @@ use Application\Controllers\CommentController;
 use Application\Controllers\HomepageController;
 use Application\Controllers\DashboardController;
 use Application\Controllers\UserController;
-use Application\Controllers\mailController;
 use Symfony\Component\HttpFoundation\Request;
 
 $request = Request::createFromGlobals();

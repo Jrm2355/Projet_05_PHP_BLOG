@@ -24,7 +24,7 @@ class UserController
 
                 $userRepository = new UserRepository();
                 $success = $userRepository->createUser($username, $email, $mdp);
-                header('Location: /login');
+                header('Location: index.php?action=login');
             } 
             include 'templates/inscription.php';
         }
